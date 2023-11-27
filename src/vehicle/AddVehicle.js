@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AddVehicle.css';
 import { useNavigate } from 'react-router-dom';
-
+import addAlert from '../alerts/addAlert';
+import confirmAlert from '../alerts/confirmAlert';
 export default function AddVehicle() {
   let navigate = useNavigate();
   const [vehicle, setVehicle] = useState({
@@ -10,8 +11,8 @@ export default function AddVehicle() {
     brand: '',
     model: '',
     year: '',
-    clientId: '' 
-   });
+    clientId: ''
+  });
 
   const { plate, brand, model, year, clientId } = vehicle;
 
@@ -21,13 +22,25 @@ export default function AddVehicle() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    const placaExistente = await axios.get(`https://localhost:7070/api/Vehicles/verificarPlaca/${plate}`);
+
+    if (placaExistente.data.existePlaca) {
+      addAlert();
+      console.error('La placa ya existe. Introduce una placa diferente.');
+      return;
+    }
+
+
     try {
       await axios.post('https://localhost:7070/api/Vehicles', JSON.stringify(vehicle), {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      navigate('/');
+
+      navigate('/Vehicle');
+      confirmAlert();
     } catch (error) {
       console.error('Error al enviar el vehículo:', error);
     }
@@ -49,7 +62,7 @@ export default function AddVehicle() {
       });
   }, []);
 
-  
+
   return (
     <div className="container">
       <h1 className="heading">Registrar Vehiculo</h1>
@@ -63,6 +76,7 @@ export default function AddVehicle() {
             placeholder="Ingrese el número de placa"
             name="plate"
             value={plate}
+            required="true"
             onChange={(e) => onInputChange(e)}
           />
         </div>
@@ -75,6 +89,7 @@ export default function AddVehicle() {
             name="brand"
             value={brand}
             onChange={(e) => onInputChange(e)}
+            required="true"
           />
         </div>
 

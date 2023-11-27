@@ -1,0 +1,84 @@
+/* Estilos para el contenedor principal */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Estilos para el encabezado */
+  .heading {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el formulario */
+  .colums {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    margin-right: 20px;
+  }
+  
+  .form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Estilos para la tabla de productos */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .table th, .product-table td {
+    border: 1px solid #fddb3a;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+  }
+  
+  /* Estilos para los elementos después de la tabla */
+  .additional-elements {
+    margin-top: 20px;
+  }
+  
+  /* Estilos para el botón de enviar */
+  .submit-button{
+    display: inline-block;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    margin-right: 10px; /* Ajusta el margen entre los botones según tus preferencias */
+  }
+
+  
+  .submit-button:hover {
+    background-color: #fddb3a;
+    color: black;
+  }
+  a{
+    text-decoration: none; /* Quita el subrayado de los enlaces */
+  }
+
+  

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './ShowVehicle.css';
 
 
 export default function ShowVehicle() {

@@ -1,3 +1,4 @@
+import Footer from './footer';
 import React, { useEffect, useState } from 'react'
 
 import axios from "axios"
@@ -43,12 +44,12 @@ export default function ClientList() {
 
   return (
     <div className='table-container'>
+      <h1>.</h1>
       <h1>Clientes</h1>
         <table className="table">
           <thead className='table-header'>
             <tr>
               <th >#</th>
-              <th >Id</th>
               <th >Nombre</th>
               <th >Apellidos</th>
               <th >Identificación</th>
@@ -66,7 +67,6 @@ export default function ClientList() {
               clients.map((client, index) => (
                 <tr>
                   <th scope="row" key={index}>{index + 1}</th>
-                  <td>{client.id}</td>
                   <td>{client.name}</td>
                   <td>{client.lastName}</td>
                   <td>{client.identification}</td>
@@ -110,7 +110,10 @@ export default function ClientList() {
         </table>
         <a href="/AddClient" class="btn-flotante">+</a>
 
-    
+        <Footer/>
+
     </div>
+    
+    
   )
 }

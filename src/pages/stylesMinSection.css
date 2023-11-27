@@ -1,0 +1,33 @@
+/* Estilo para el h2 normal y párrafos en section */
+section {
+  padding-top: 40px; /* Ajusta la altura según el grosor de tu barra de navegación */
+  padding-bottom: 50px;
+}
+
+/* Estilo para el h2 normal */
+section h2 {
+  color: #333;
+  font-size: 2em;
+  margin-bottom: 20px;
+  transition: color 0.3s, text-decoration 0.3s; /* Agrega transición suave para cambios */
+}
+
+/* Estilo para el h2 al pasar el mouse */
+section h2:hover {
+  color: #e44d26; /* Cambia a un color diferente al pasar el mouse */
+  text-decoration: underline; /* Subraya el texto al pasar el mouse */
+}
+
+/* Estilo para los párrafos normal */
+section p {
+  color: #555;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+
+/* Estilo para los párrafos al pasar el mouse (si deseas) */
+section p:hover {
+  /* Puedes agregar estilos adicionales si lo deseas */
+}
+
+/* Agrega estilos adicionales según sea necesario */

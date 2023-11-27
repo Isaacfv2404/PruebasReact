@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import Footer from './footer';
+import React, { useEffect, useState } from 'react';
 
-import axios from "axios"
+import axios from 'axios';
 import './styles.css';
 
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom';
 import DeleteVehicle from '../vehicle/DeleteVehicle';
 
 export default function VehicleList() {
-
-  const [vehicles, setVehicles] = useState([])
-
+  const [vehicles, setVehicles] = useState([]);
 
   useEffect(() => {
     loadVehicles();
-  }, [])
+  }, []);
 
   const [clients, setClients] = useState([]);
 
@@ -32,7 +31,6 @@ export default function VehicleList() {
   }, []);
 
   const loadVehicles = async () => {
-    
     try {
       const response = await axios.get('https://localhost:7070/api/Vehicles');
       setVehicles(response.data);
@@ -42,41 +40,37 @@ export default function VehicleList() {
     }
   };
 
-
   return (
-    <div className='table-container'>
+    <div className="table-container">
+      <h1>.</h1>
       <h1>Vehiculos</h1>
-        <table className="table">
-          <thead className='table-header'>
+      <table className="table">
+        <thead className="table-header">
+          <tr>
+            <th>#</th>
+            <th>Placa</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Año</th>
+            <th>Cliente Asociado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody className="table-body">
+          {vehicles.map((vehicle, index) => (
             <tr>
-              <th >#</th>
-              <th >Id</th>
-              <th >Placa</th>
-              <th >Marca</th>
-              <th >Modelo</th>
-              <th >Año</th>
-              <th >Cliente Asociado</th>
-              <th >Acciones</th>
-            </tr>
-          </thead>
-          <tbody className="table-body">
+              <th scope="row" key={index}>
+                {index + 1}
+              </th>
+              <td>{vehicle.plate}</td>
+              <td>{vehicle.brand}</td>
+              <td>{vehicle.model}</td>
+              <td>{vehicle.year}</td>
+              <td>
+                {clients.find((client) => client.id === vehicle.clientId)?.name}
+              </td>
 
-            {
-           
-              vehicles.map((vehicle, index) => (
-                <tr>
-                  <th scope="row" key={index}>{index + 1}</th>
-                  <td>{vehicle.id}</td>
-                  <td>{vehicle.plate}</td>
-                  <td>{vehicle.brand}</td>
-                  <td>{vehicle.model}</td>
-                  <td>{vehicle.year}</td>
-                  <td>{clients.find((client) => client.id === vehicle.clientId)?.name}</td>
-
-
-
-
-                  <td className="actions">
+              <td className="actions">
                 <Link
                   className="actions-link "
                   to={`/ShowVehicle?id=${vehicle.id}`}
@@ -93,22 +87,21 @@ export default function VehicleList() {
                 <Link
                   className="actions-link "
                   onClick={() => {
-                    DeleteVehicle(vehicle.id,loadVehicles);
+                    DeleteVehicle(vehicle.id, loadVehicles);
                   }}
                 >
                   Eliminar
                 </Link>
               </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <a href="/AddVehicle" class="btn-flotante">
+        +
+      </a>
 
-
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-        <a href="/AddVehicle" class="btn-flotante">+</a>
-
-    
+      <Footer />
     </div>
-  )
+  );
 }

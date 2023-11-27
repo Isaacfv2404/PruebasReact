@@ -1,3 +1,4 @@
+import Footer from './footer';
 import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
@@ -31,12 +32,12 @@ export default function ProductList() {
 
   return (
     <div className="table-container">
+      <h1>.</h1>
       <h1>Productos</h1>
       <table className="table">
         <thead className="table-header">
           <tr>
             <th>#</th>
-            <th>Id</th>
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Marca</th>
@@ -53,7 +54,6 @@ export default function ProductList() {
                 {index + 1}
               </th>
 
-              <td>{producto.id}</td>
               <td>{producto.name}</td>
               <td>{producto.description}</td>
               <td>{producto.brand}</td>
@@ -61,9 +61,9 @@ export default function ProductList() {
                 {
                   (formattedPrice = producto.price
                     ? producto.price.toLocaleString('es-CR', {
-                        style: 'currency',
-                        currency: 'CRC',
-                      })
+                      style: 'currency',
+                      currency: 'CRC',
+                    })
                     : '')
                 }
               </td>
@@ -87,7 +87,7 @@ export default function ProductList() {
                 <Link
                   className="actions-link "
                   onClick={() => {
-                    DeleteProduct(producto.id,handleProductDeleted);
+                    DeleteProduct(producto.id, handleProductDeleted);
                   }}
                 >
                   Eliminar
@@ -100,6 +100,8 @@ export default function ProductList() {
       <a href="/AddProduct" class="btn-flotante">
         +
       </a>
+      <Footer />
+
     </div>
   );
 }

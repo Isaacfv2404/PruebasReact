@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './ShowClient.css';
 
 export default function ShowClient() {
   //let navigate = useNavigate();

@@ -1,12 +1,23 @@
+/* Navigation.css */
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
-nav {
+.navMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1500; /* Ajusta el índice z según sea necesario para cubrir otros elementos */
+  background-color: #232122;
   display: flex;
-  justify-content: flex-start;
-  background: #272727;
-  font-family: 'Montserrat', sans-serif;
-  top: 50%;
-  left: 50%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+.company-logo img {
+  max-height: 60px;
 }
 
 .navMenu a {
@@ -22,13 +33,6 @@ nav {
 .navMenu a:hover {
   color: #fddb3a;
 }
-
-.company-logo img {
-  width: 100px; /* Establece el ancho deseado en píxeles */
-  height: 70px; /* Mantén la relación de aspecto original */
-  position: relative;
-}
-/* ... Tus estilos actuales ... */
 
 .navMenu .nav-link {
   margin: 30px;
@@ -87,13 +91,13 @@ nav {
   display: flex;
   align-items: center;
   font-size: inherit;
-  padding: 1.1rem 3rem ;
+  padding: 1.1rem 3rem;
   cursor: pointer;
   width: 100%;
 }
 
 .title_activator:hover {
-  border-bottom: 1px solid  #fddb3a;
+  border-bottom: 1px solid #fddb3a;
   border-image: linear-gradient(
       to right,
       transparent 20%,
@@ -102,3 +106,5 @@ nav {
     )
     30;
 }
+
+/* ... Otros estilos adicionales según tus necesidades ... */

@@ -20,8 +20,8 @@ function deleteAlert(apiUrl, updateList, dato) {
           .delete(`${apiUrl}`)
           .then((response) => {
             Swal.fire({
-              title: 'Eliminado!',
-              text: `${dato} se eliminó con éxito!`,
+              title: 'Eliminado.',
+              text: `${dato} Se eliminó con éxito.`,
               icon: 'success',
               footer: '<link rel="stylesheet" href="/globalAlert.css"></link> ',
               confirmButtonColor: '#333',
