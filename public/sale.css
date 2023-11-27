@@ -35,6 +35,7 @@
     padding: 10px;
     font-size: 16px;
     font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
   }
   
   /* Estilos para la tabla de productos */
