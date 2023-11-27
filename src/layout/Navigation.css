@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+nav {
+  display: flex;
+  justify-content: flex-start;
+  background: #272727;
+  font-family: 'Montserrat', sans-serif;
+  top: 50%;
+  left: 50%;
+}
+
+.navMenu a {
+  margin: 30px;
+  color: #f6f4e6;
+  padding-right: 9rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 20;
+  width: 20px;
+}
+
+.navMenu a:hover {
+  color: #fddb3a;
+}
+
+.company-logo img {
+  width: 100px; /* Establece el ancho deseado en píxeles */
+  height: 70px; /* Mantén la relación de aspecto original */
+  position: relative;
+}
+/* ... Tus estilos actuales ... */
+
+.navMenu .nav-link {
+  margin: 30px;
+  color: #f6f4e6;
+  padding-right: 9rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 20;
+  cursor: pointer;
+  width: 20px;
+  position: relative;
+}
+
+.navMenu .nav-link.open {
+  color: #fddb3a;
+}
+
+.sub-menu {
+  display: none;
+  position: absolute;
+  background: #272727;
+  top: 100%;
+  left: 0;
+  width: 150px;
+}
+
+.sub-menu.open {
+  display: block;
+}
+
+.sub-menu a {
+  display: block;
+  padding: 10px;
+  color: #f6f4e6;
+  text-decoration: none;
+}
+
+.sub-menu a:hover {
+  background: #333;
+  color: #fddb3a;
+}
+
+.title {
+  position: relative;
+  display: inline-block;
+}
+
+.title_activator {
+  align-items: center;
+  background-color: inherit;
+  border: none;
+  height: 100%;
+  color: white;
+  font-weight: 500;
+  letter-spacing: 1.1px;
+  display: flex;
+  align-items: center;
+  font-size: inherit;
+  padding: 1.1rem 3rem ;
+  cursor: pointer;
+  width: 100%;
+}
+
+.title_activator:hover {
+  border-bottom: 1px solid  #fddb3a;
+  border-image: linear-gradient(
+      to right,
+      transparent 20%,
+      #fddb3a,
+      transparent 80%
+    )
+    30;
+}

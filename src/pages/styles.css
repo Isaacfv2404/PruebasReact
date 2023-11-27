@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+.table-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+.table-header th {
+  padding: 10px;
+  text-align: center; /* Alineación centrada en las cabeceras */
+}
+
+.table-body td {
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+  text-align: center; /* Alineación centrada en las celdas */
+}
+
+.table-body tr:last-child td {
+  border-bottom: none;
+}
+
+.table-body tr:hover {
+  background-color: #f8f8f8;
+}
+
+.actions-link {
+  display: inline-block;
+  padding: 10px 16px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 45px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.actions-link:hover {
+  color: #fddb3a;
+}
+
+/* Estilos adicionales para las celdas */
+.table-body td {
+  font-family: 'Montserrat', sans-serif; /* Formato de letra */
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+h1 {
+  background-color: #f2f2f2; /* Color gris de fondo */
+  padding: 10px; /* Ajusta el espacio alrededor del texto */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Sombreado */
+  display: block; /* Cambia la visualización a bloque para que abarque todo el ancho */
+  width: 100%; /* Establece el ancho al 100% */
+  text-align: center; /* Centra el texto horizontalmente */
+  margin-bottom: 1; /* Reduce el margen inferior del título */
+  margin-top: 0;
+  
+}
+
+.table-container {
+  position: relative;
+}
+
+.btn-flotante {
+  font-size: 30px;
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 60px; /* Aumenta el ancho para centrar el texto */
+  height: 60px; /* Aumenta la altura para centrar el texto */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  border-radius: 50%;
+  letter-spacing: 2px;
+  background-color: #333;
+  position: fixed;
+  bottom: 40px;
+  text-decoration: none;
+  right: 40px;
+  transition: all 300ms ease 0ms;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  z-index: 99;
+}
+
+.btn-flotante:hover {
+	box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+	transform: translateY(-7px);
+  color: #fddb3a ;
+}
+@media only screen and (max-width: 600px) {
+ 	.btn-flotante {
+		font-size: 14px;
+		padding: 12px 20px;
+		bottom: 20px;
+		right: 20px;
+	}
+} 

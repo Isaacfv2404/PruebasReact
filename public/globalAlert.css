@@ -1,0 +1,8 @@
+.alert-button button{
+    border-radius: 45px;
+}
+
+
+.alert-button button:hover{
+    color: #fddb3a;
+  }
