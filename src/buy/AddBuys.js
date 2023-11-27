@@ -221,7 +221,7 @@ export default function AddBuys() {
               </tbody>
             </table>
             {/* Puedes utilizar el array de productos seleccionados (productosSeleccionados) según tus necesidades */}
-            <p>Productos seleccionados: {productosSeleccionados.join(', ')}</p>
+            
           </div>
 
           <button className="submit-button" type="submit">

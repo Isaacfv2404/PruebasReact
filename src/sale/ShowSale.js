@@ -57,8 +57,12 @@ export default function ShowSale() {
           <label className="view-value">{formDate(sale.date)}</label>
         </div>
         <div className="view-row">
-          <label className="view-label">Total:</label>
-          <label className="view-value">{sale.total}</label>
+          <label className="view-label">Empleado:</label>
+          <label className="view-value">{employee.name}</label>
+        </div>
+        <div className="view-row">
+          <label className="view-label">Cliente:</label>
+          <label className="view-value">{client.name} {client.lastName}</label>
         </div>
         <div className="view-row">
           <label className="view-label">Descuento:</label>
@@ -69,12 +73,8 @@ export default function ShowSale() {
           <label className="view-value">{sale.subTotal}</label>
         </div>
         <div className="view-row">
-          <label className="view-label">Empleado:</label>
-          <label className="view-value">{employee.name}</label>
-        </div>
-        <div className="view-row">
-          <label className="view-label">Cliente:</label>
-          <label className="view-value">{client.name} {client.lastName}</label>
+          <label className="view-label">Total:</label>
+          <label className="view-value">{sale.total}</label>
         </div>
         <div className="view-row">
           <label className="view-label">Productos:</label>

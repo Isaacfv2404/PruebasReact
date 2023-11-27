@@ -10,11 +10,11 @@ export default function EditBuys() {
 
   const [buys, setBuys] = useState({
     date: new Date(),
-    amount: '',
     total: '',
     supplierId: '',
     employeeId: '',
     productId: '',
+    cantidad: '',
   });
 
   const { date, amount, total, supplierId, employeeId, productId } = buys;
@@ -25,6 +25,7 @@ export default function EditBuys() {
 
   // Estado para almacenar productos seleccionados
   const [productosSeleccionados, setProductosSeleccionados] = useState([]);
+  const [cantidades, setCantidades] = useState({});
 
   const handleSeleccionProducto = (id) => {
     const productoYaSeleccionado = productosSeleccionados.includes(id);
@@ -36,7 +37,13 @@ export default function EditBuys() {
       setProductosSeleccionados([...productosSeleccionados, id]);
     }
   };
-
+  ///cantidad de los productos
+  const handleCantidadChange = (productId, cantidad) => {
+    setCantidades((prevCantidades) => ({
+      ...prevCantidades,
+      [productId]: cantidad,
+    }));
+  };
   const onInputChange = (e) => {
     setBuys({ ...buys, [e.target.name]: e.target.value });
   };
@@ -47,12 +54,13 @@ export default function EditBuys() {
     loadEmployees();
     loadSupplier();
   }, []);
+
   const calculateTotal = () => {
-    // Calcular el total sumando los precios de los productos seleccionados
     const selectedProducts = products.filter((product) => productosSeleccionados.includes(product.id));
-    const totalAmount = selectedProducts.reduce((total, product) => total + product.price, 0);
+    const totalAmount = selectedProducts.reduce((total, product) => total + (product.price * (cantidades[product.id] || 0)), 0);
     return totalAmount.toFixed(2); // Redondear el resultado a dos decimales
   };
+
   const formatDate = (date) => {
     const d = new Date(date);
     const year = d.getFullYear().toString().slice(-4);
@@ -79,10 +87,13 @@ export default function EditBuys() {
       employeeId: parseInt(employeeId),
     };
     await axios.put(`https://localhost:7070/api/Buys/${id}`, buysData);
+
     for (const productId of productosSeleccionados) {
+      const cantidad = cantidades[productId] || 1;
       const buysProductData = {
         buysId: parseInt(id),
         productId: productId,
+        quantity: cantidad,
       };
       console.log(buysProductData);
       await axios.post('https://localhost:7070/api/BuysProducts', buysProductData);
@@ -129,86 +140,81 @@ export default function EditBuys() {
     <div>
       <link rel="stylesheet" href="/sale.css"></link>
       <div className="container">
-        <h2 className="heading">Editar Compra</h2>
+        <h1>.</h1>
+        <h1 className="heading">Editar Compra</h1>
 
         <form onSubmit={(e) => onSubmit(e)}>
-          <div className="form-group">
-            <label className="form-label">Fecha</label>
-            <input
-              type={'date'}
-              className="form-control"
-              name="date"
-              value={new Date().toISOString().split('T')[0]}
-              onChange={(e) => onInputChange(e)}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Cantidad</label>
-            <input
-              type={'number'}
-              className="form-control"
-              placeholder="Ingresa la cantidad"
-              name="amount"
-              value={amount}
-              onChange={(e) => onInputChange(e)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Total</label>
-            <input
-              type={'number'}
-              className="form-control"
-              placeholder="Ingresa el total"
-              name="total"
-              value={total}
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Proveedor</label>
-            <select
-              className="form-control"
-              name="supplierId"
-              value={supplierId}
-
-            >
-              <option value="">Proveedor</option>
-              {employees.map((supplier) => (
-                <option key={supplier.id} value={supplier.id}>
-                  {supplier.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Empleado</label>
-            <select
-              className="form-control"
-              name="employeeId"
-              value={employeeId}
-
-            >
-              <option value="">Empleado</option>
-              {employees.map((employee) => (
-                <option key={employee.id} value={employee.id}>
-                  {employee.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="view-row">
-            <label className="view-label">Productos:</label>
-            <div className='view-container'>
-              <ul>
-                {productsL.map((product) => (
-                  <li key={product.id}>{product.name} Precio {product.price}</li>
-                ))}
-              </ul>
+          <div className="colums">
+            <div className="form-group">
+              <label className="form-label">Fecha</label>
+              <input
+                type={'date'}
+                className="form-control"
+                name="date"
+                value={new Date().toISOString().split('T')[0]}
+                onChange={(e) => onInputChange(e)}
+              />
             </div>
-          </div>
+
+            <div className="form-group">
+              <label className="form-label">Total</label>
+              <input
+                type={'number'}
+                className="form-control"
+                placeholder="Ingresa el total"
+                name="total"
+                value={total}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Proveedor</label>
+              <select
+                className="form-control"
+                name="supplierId"
+                value={supplierId}
+
+              >
+                <option value="">Proveedor</option>
+                {employees.map((supplier) => (
+                  <option key={supplier.id} value={supplier.id}>
+                    {supplier.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Empleado</label>
+              <select
+                className="form-control"
+                name="employeeId"
+                value={employeeId}
+
+              >
+                <option value="">Empleado</option>
+                {employees.map((employee) => (
+                  <option key={employee.id} value={employee.id}>
+                    {employee.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            </div>
+
+            <div className="view-row">
+              <label className="view-label">Productos:</label>
+              <div className='view-container'>
+                <ul>
+                  {productsL.map((product) => (
+                    <li key={product.id}>{product.name} Precio {product.price}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+        
+
           <div className="form-group">
             <label className="form-label">Productos</label>
             <table className="table">
@@ -216,6 +222,7 @@ export default function EditBuys() {
                 <tr>
                   <th>Nombre del Producto</th>
                   <th>Seleccione el producto</th>
+                  <th>Cantidad</th>
                 </tr>
               </thead>
               <tbody>
@@ -229,11 +236,20 @@ export default function EditBuys() {
                         checked={productosSeleccionados.includes(product.id)}
                       />
                     </td>
+                    <td>
+                      <input
+                        type="number"
+                        min="0"
+                        value={cantidades[product.id] || 0}
+                        onChange={(e) => handleCantidadChange(product.id, e.target.value)}
+                        disabled={!productosSeleccionados.includes(product.id)}
+                      />
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <p>Productos seleccionados: {productosSeleccionados.join(', ')}</p>
+           
           </div>
 
           <button className="submit-button" type="submit">Guardar Cambios</button>

@@ -11,15 +11,15 @@ export default function EditSale() {
 
 
   const [sale, setSale] = useState({
-    id:id,
+    id: id,
     code: '',
     date: new Date(),
     employeeId: '',
     clientId: '',
     discount: '',
-    subTotal:'',
+    subTotal: '',
     total: '',
-
+    cantidad: '',
 
   });
 
@@ -27,6 +27,7 @@ export default function EditSale() {
   const [employees, setEmployees] = useState([]);
   const [clients, setClients] = useState([]);
   const [productsL, setProductsL] = useState([]);
+  const [cantidades, setCantidades] = useState({});
   const salep = [];
 
   // Estado para almacenar productos seleccionados
@@ -42,8 +43,14 @@ export default function EditSale() {
       setProductosSeleccionados([...productosSeleccionados, id]);
     }
   };
-
-  const { code, date, employeeId, clientId, discount, subTotal, total } = sale;
+ ///cantidad de los productos
+ const handleCantidadChange = (productId, cantidad) => {
+  setCantidades((prevCantidades) => ({
+    ...prevCantidades,
+    [productId]: cantidad,
+  }));
+};
+  const { code, date, employeeId, clientId, discount, subTotal, total,cantidad } = sale;
 
   const onInputChange = (e) => {
     setSale({ ...sale, [e.target.name]: e.target.value });
@@ -56,16 +63,18 @@ export default function EditSale() {
     loadClients();
   }, []);
 
+  // Calcular el total sumando los precios de los productos seleccionados
   const calculateTotal = () => {
     const selectedProducts = products.filter((product) =>
       productosSeleccionados.includes(product.id)
     );
     const subtotalAmount = selectedProducts.reduce(
-      (subtotal, product) => subtotal + product.price,
-      0
+      (subtotal, product) => subtotal + (product.price * (cantidades[product.id] || 0)), 0
     );
-    const discountAmount = parseFloat(discount) || 0;
+    const discountPercentage = parseFloat(discount) || 0;
+    const discountAmount = (subtotalAmount * discountPercentage) / 100;
     const totalAmount = subtotalAmount - discountAmount;
+
     return {
       subtotal: subtotalAmount.toFixed(2),
       total: totalAmount.toFixed(2),
@@ -89,31 +98,33 @@ export default function EditSale() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-      const calculatedTotal = calculateTotal();
+    const calculatedTotal = calculateTotal();
 
 
     const saleData = {
-      id:parseInt(id),
+      id: parseInt(id),
       code: parseInt(code),
       date: formatDate(date),
       employeeId: parseInt(employeeId),
       clientId: parseInt(clientId),
       discount: parseFloat(discount),
-      subTotal: parseFloat(parseInt(calculatedTotal.subtotal)+subTotal),
-      total: parseFloat(parseInt(calculatedTotal.total)+total),
+      subTotal: parseFloat(parseInt(calculatedTotal.subtotal) + subTotal),
+      total: parseFloat(parseInt(calculatedTotal.total) + total),
 
     };
     console.log(saleData)
-    const resp=await axios.put(`https://localhost:7070/api/Sales/${id}`, saleData);
+    const resp = await axios.put(`https://localhost:7070/api/Sales/${id}`, saleData);
 
     // Recorrer los productos seleccionados y actualizar la tabla de SaleProducts
     for (const productId of productosSeleccionados) {
+      const cantidad = cantidades[productId] || 1; // Obtener la cantidad ingresada o usar 1 si no se ingresó nada
       const saleProductData = {
-        saleId: parseInt(id),
+        saleId: id,
         productId: productId,
+        quantity:cantidad,
       };
       console.log(saleProductData);
-      await axios.post('https://localhost:7070/api/SaleProducts',saleProductData);
+      await axios.post('https://localhost:7070/api/SaleProducts', saleProductData);
     }
 
     navigate('/Sales');
@@ -144,7 +155,7 @@ export default function EditSale() {
     try {
       const response = await axios.get('https://localhost:7070/api/Employees');
       setEmployees(response.data);
-    
+
     } catch (error) {
       console.error('Error al cargar los empleados:', error);
     }
@@ -167,102 +178,106 @@ export default function EditSale() {
         <h2 className="heading">Editar Venta</h2>
 
         <form onSubmit={(e) => onSubmit(e)}>
-          <div className="form-group">
-            <label className="form-label">Código</label>
-            <input
-              type={'number'}
-              className="form-control"
-              placeholder="Código"
-              name="code"
-              value={code}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Fecha</label>
-            <input
-              type={'date'}
-              className="form-control"
-              name="date"
-              value={new Date().toISOString().split('T')[0]}
-              onChange={(e) => onInputChange(e)}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Empleado</label>
-            <select
-              className="form-control"
-              name="employeeId"
-              value={employeeId}
+          <div className="colums">
+            <div className="form-group">
+              <label className="form-label">Código</label>
+              <input
+                type={'number'}
+                className="form-control"
+                placeholder="Código"
+                name="code"
+                value={code}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Fecha</label>
+              <input
+                type={'date'}
+                className="form-control"
+                name="date"
+                value={new Date().toISOString().split('T')[0]}
+                onChange={(e) => onInputChange(e)}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Empleado</label>
+              <select
+                className="form-control"
+                name="employeeId"
+                value={employeeId}
 
-            >
-              <option value="">Empleado</option>
-              {employees.map((employee) => (
-                <option key={employee.id} value={employee.id}>
-                  {employee.name}
-                </option>
-              ))}
-            </select>
+              >
+                <option value="">Empleado</option>
+                {employees.map((employee) => (
+                  <option key={employee.id} value={employee.id}>
+                    {employee.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Cliente</label>
+              <select
+                className="form-control"
+                name="clientId"
+                value={clientId}
+
+              >
+                <option value="">Cliente</option>
+                {clients.map((client) => (
+                  <option key={client.id} value={client.id}>
+                    {client.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Descuento</label>
+              <input
+                type={'number'}
+                className="form-control"
+                placeholder="Ingresa el descuento"
+                name="discount"
+                value={discount}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Subtotal</label>
+              <input
+                type={'number'}
+                step="0.01"
+                className="form-control"
+                name="subTotal"
+                value={subTotal}
+                readOnly
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Total</label>
+              <input
+                type={'number'}
+                className="form-control"
+                placeholder="Ingresa el total"
+                name="total"
+                value={total}
+              />
+            </div>
+
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Cliente</label>
-            <select
-              className="form-control"
-              name="clientId"
-              value={clientId}
-
-            >
-              <option value="">Cliente</option>
-              {clients.map((client) => (
-                <option key={client.id} value={client.id}>
-                  {client.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Descuento</label>
-            <input
-              type={'number'}
-              className="form-control"
-              placeholder="Ingresa el descuento"
-              name="discount"
-              value={discount}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Subtotal</label>
-            <input
-              type={'number'}
-              step="0.01"
-              className="form-control"
-              name="subTotal"
-              value={subTotal}
-              readOnly
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Total</label>
-            <input
-              type={'number'}
-              className="form-control"
-              placeholder="Ingresa el total"
-              name="total"
-              value={total}
-            />
-          </div>
 
           <div className="view-row">
-          <label className="view-label">Productos:</label>
-          <div className='view-container'>
-          <ul>
-            {productsL.map((product) => (
-              <li key={product.id}>{product.name} Precio {product.price}</li>
-            ))}
-          </ul>
+            <label className="view-label">Productos:</label>
+            <div className='view-container'>
+              <ul>
+                {productsL.map((product) => (
+                  <li key={product.id}>{product.name} Precio {product.price}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
           <div className="form-group">
             <label className="form-label">Productos</label>
             <table className="table">
@@ -270,6 +285,7 @@ export default function EditSale() {
                 <tr>
                   <th>Nombre del Producto</th>
                   <th>Seleccione el producto</th>
+                  <th>Cantidad</th>
                 </tr>
               </thead>
               <tbody>
@@ -283,6 +299,15 @@ export default function EditSale() {
                         checked={productosSeleccionados.includes(product.id)}
                       />
                     </td>
+                    <td>
+                      <input
+                        type="number"
+                        min="0"
+                        value={cantidades[product.id] || 0}
+                        onChange={(e) => handleCantidadChange(product.id, e.target.value)}
+                        disabled={!productosSeleccionados.includes(product.id)}
+                      />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -294,7 +319,7 @@ export default function EditSale() {
             Guardar Cambios
           </button>
         </form>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
