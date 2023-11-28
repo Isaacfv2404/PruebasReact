@@ -129,6 +129,7 @@ export default function EditBuys() {
   const loadSupplier = async () => {
     try {
       const response = await axios.get('https://localhost:7070/api/Suppliers');
+      
       setSupplier(response.data);
 
     } catch (error) {
