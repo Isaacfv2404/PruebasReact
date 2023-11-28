@@ -164,7 +164,7 @@ export default function EditBuys() {
                 className="form-control"
                 placeholder="Ingresa el total"
                 name="total"
-                value={total}
+                value={(parseInt(total)+parseInt(calculateTotal()))}
               />
             </div>
 

@@ -28,7 +28,8 @@ export default function EditSale() {
   const [clients, setClients] = useState([]);
   const [productsL, setProductsL] = useState([]);
   const [cantidades, setCantidades] = useState({});
-  const salep = [];
+  const [salep, setSaleP] = useState([]);
+
 
   // Estado para almacenar productos seleccionados
   const [productosSeleccionados, setProductosSeleccionados] = useState([]);
@@ -61,6 +62,7 @@ export default function EditSale() {
     loadProducts();
     loadEmployees();
     loadClients();
+    loadSaleProducts();
   }, []);
 
   // Calcular el total sumando los precios de los productos seleccionados
@@ -125,6 +127,7 @@ export default function EditSale() {
       };
       console.log(saleProductData);
       await axios.post('https://localhost:7070/api/SaleProducts', saleProductData);
+
     }
 
     navigate('/Sales');
@@ -136,13 +139,12 @@ export default function EditSale() {
     setSale(result.data);
   };
 
+
   const loadProducts = async () => {
     try {
       // Obtener información de los productos asociados a la venta
       const productsResult = await axios.get(`https://localhost:7070/api/SaleProducts/${id}/products`);
       setProductsL(productsResult.data);
-
-
 
       const response = await axios.get('https://localhost:7070/api/Products');
       setProducts(response.data);
@@ -165,6 +167,15 @@ export default function EditSale() {
     try {
       const response = await axios.get('https://localhost:7070/api/Clients');
       setClients(response.data);
+    } catch (error) {
+      console.error('Error al cargar los SALEP:', error);
+    }
+  };
+  const loadSaleProducts = async () => {
+    try {
+      const response = await axios.get(`https://localhost:7070/api/SaleProducts/${id}/saleproducts`);
+      setSaleP(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error al cargar los clientes:', error);
     }
@@ -250,7 +261,7 @@ export default function EditSale() {
                 step="0.01"
                 className="form-control"
                 name="subTotal"
-                value={subTotal}
+                value={(parseInt(subTotal)+parseInt(calculateTotal().subtotal))}
                 readOnly
               />
             </div>
@@ -259,9 +270,9 @@ export default function EditSale() {
               <input
                 type={'number'}
                 className="form-control"
-                placeholder="Ingresa el total"
+                placeholder="Total"
                 name="total"
-                value={total}
+                value={parseInt(total)+parseInt(calculateTotal().total)}
               />
             </div>
 
@@ -312,12 +323,10 @@ export default function EditSale() {
                 ))}
               </tbody>
             </table>
-            <p>Productos seleccionados: {productosSeleccionados.join(', ')}</p>
           </div>
 
-          <button className="submit-button" type="submit">
-            Guardar Cambios
-          </button>
+          <button className="submit-button" type="submit">Guardar Cambios</button>
+          <a href="Sales" className="submit-button">Cancelar</a>
         </form>
       </div >
     </div >
