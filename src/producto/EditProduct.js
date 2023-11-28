@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function EditProduct() {
   let navigate = useNavigate();
@@ -29,8 +30,29 @@ export default function EditProduct() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`https://localhost:7070/api/Products/${id}`, product);
-    navigate('/ProductList');
+    const result = await Swal.fire({
+      title: '¿Desea guardar los cambios?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      denyButtonText: 'No guardar',
+    });
+  
+    if (result.isConfirmed) {
+      // Si el usuario confirma, realiza la actualización
+      try {
+        await axios.put(`https://localhost:7070/api/Products/${id}`, product);
+        Swal.fire('Guardado.', '', 'success');
+        navigate('/ProductList');
+      } catch (error) {
+        console.error('Error al actualizar el producto:', error);
+        Swal.fire('Error al guardar los cambios.', 'Por favor, inténtelo de nuevo más tarde.', 'error');
+      }
+    } else if (result.isDenied) {
+      // Si el usuario niega, muestra un mensaje informativo
+      Swal.fire('Los cambios no fueron guardados.', '', 'info');
+      navigate('/ProductList');
+    }
   };
 
   const loadProduct = async () => {
