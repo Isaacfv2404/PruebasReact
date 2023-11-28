@@ -30,7 +30,7 @@ export default function EditProduct() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(`https://localhost:7070/api/Products/${id}`, product);
-    navigate('/');
+    navigate('/ProductList');
   };
 
   const loadProduct = async () => {
@@ -113,6 +113,7 @@ export default function EditProduct() {
               name="productType"
               value={productType}
               onChange={(e) => onInputChange(e)}
+              disabled
             />
           </div>
 

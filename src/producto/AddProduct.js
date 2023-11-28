@@ -59,9 +59,9 @@ export default function AddProduct() {
       await axios.post('https://localhost:7070/api/Batteries', battery);
     }
 
-    navigate('/');
+    navigate('/ProductList');
     Swal.fire(
-      'Producto Agregado!',
+      '!Producto Agregado!',
       'El producto se almacenó con éxito!',
       'success'
     );
@@ -110,11 +110,11 @@ export default function AddProduct() {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Precio</label>
+            <label className="form-label">Precio (₡)</label>
             <input
               type={'number'}
               className="form-control"
-              placeholder="ingresa el precio"
+              placeholder="ingresa el precio ₡"
               name="price"
               value={price}
               onChange={(e) => onInputChange(e)}
@@ -141,6 +141,7 @@ export default function AddProduct() {
               value={productType}
               onChange={(e) => onInputChange(e)}
             >
+              <option value="">Selecciona el tipo de producto</option>
               <option value="Batería">Batería</option>
               <option value="Accesorio">Accesorio</option>
             </select>
@@ -148,7 +149,6 @@ export default function AddProduct() {
 
           {productType === 'Batería' && (
             <div>
-              {/* Campos específicos para Batería */}
               <div className="form-group">
                 <label className="form-label">Modelo</label>
                 <input
@@ -164,7 +164,7 @@ export default function AddProduct() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Capacidad</label>
+                <label className="form-label">Capacidad (mAh)</label>
                 <input
                   type="number"
                   className="form-control"
@@ -178,7 +178,7 @@ export default function AddProduct() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Voltaje</label>
+                <label className="form-label">Voltaje (V)</label>
                 <input
                   type="number"
                   className="form-control"
@@ -206,7 +206,7 @@ export default function AddProduct() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Peso</label>
+                <label className="form-label">Peso (g)</label>
                 <input
                   type="number"
                   className="form-control"
@@ -220,7 +220,7 @@ export default function AddProduct() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Largo</label>
+                <label className="form-label">Largo (cm)</label>
                 <input
                   type="number"
                   className="form-control"
@@ -234,7 +234,7 @@ export default function AddProduct() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Ancho</label>
+                <label className="form-label">Ancho (cm)</label>
                 <input
                   type="number"
                   className="form-control"
@@ -248,7 +248,7 @@ export default function AddProduct() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Alto</label>
+                <label className="form-label">Alto (cm)</label>
                 <input
                   type="number"
                   className="form-control"
@@ -274,8 +274,6 @@ export default function AddProduct() {
                   }
                 />
               </div>
-
-              {/* Otros campos específicos para Batería */}
             </div>
           )}
 
