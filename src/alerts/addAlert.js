@@ -1,10 +1,10 @@
 
 import Swal from 'sweetalert2';
 
-function addAlert() {
+function addAlert(alert) {
     Swal.fire({
       title: '¡Hubo un error!',
-      text: 'La placa ya existe',
+      text: alert,
       icon: 'warning',
       confirmButtonColor: '#333',
       confirmButtonTextColor: '#fddb3a',

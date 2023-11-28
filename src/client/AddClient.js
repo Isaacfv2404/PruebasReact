@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './AddClient.css';
 import { useNavigate } from 'react-router-dom';
+import addAlert from '../alerts/addAlert';
+import confirmAlert from '../alerts/confirmAlert';
+
 
 export default function AddClient() {
   let navigate = useNavigate();
@@ -22,6 +25,21 @@ export default function AddClient() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    const cedulaExistente = await axios.get(`https://localhost:7070/api/Clients/verificarCliente/${identification}`);
+    const emailExistente  = await axios.get(`https://localhost:7070/api/Clients/verificarEmail/${email}`);
+
+    if (cedulaExistente.data.existeCedula) {
+      const alert = 'Ya existe el número de cédula a registrar.';
+      addAlert(alert);
+      console.error('El número de Cédula ya existe. Introduce una cédula diferente.');
+      return;
+    }
+    if (emailExistente.data.existeEmail) {
+      const alert = 'El correo electrónico proporcionado, ya está registrado en otro cliente.';
+      addAlert(alert);
+      console.error('El email ya existe.');
+      return;
+    }
     try {
       await axios.post(
         'https://localhost:7070/api/Clients',
@@ -32,7 +50,8 @@ export default function AddClient() {
           },
         }
       );
-      navigate('/');
+      navigate('/Client');
+      confirmAlert();
     } catch (error) {
       console.error('Error al enviar el Cliente:', error);
     }

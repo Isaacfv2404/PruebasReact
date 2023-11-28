@@ -26,10 +26,12 @@ export default function AddVehicle() {
     const placaExistente = await axios.get(`https://localhost:7070/api/Vehicles/verificarPlaca/${plate}`);
 
     if (placaExistente.data.existePlaca) {
-      addAlert();
+      const alert = 'Ya existe Número de placa a registrar.';
+      addAlert(alert);
       console.error('La placa ya existe. Introduce una placa diferente.');
       return;
     }
+    
 
 
     try {
