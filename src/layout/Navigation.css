@@ -7,6 +7,7 @@
   top: 0;
   left: 0;
   width: 100%;
+  height: 50px;
   z-index: 1500; /* Ajusta el índice z según sea necesario para cubrir otros elementos */
   background-color: #232122;
   display: flex;

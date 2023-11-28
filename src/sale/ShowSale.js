@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './view.css';
+import GraphicComponent from './GraphicComponent';
+
 
 export default function ShowSale() {
   const [sale, setSale] = useState({});
@@ -88,7 +90,10 @@ export default function ShowSale() {
         </div>
         <a href="Sales" className="submit-button">Salir</a>
       </div>
-
+      <GraphicComponent
+        total={sale.total}
+        products={products}
+      />
     </div>
   );
 }
