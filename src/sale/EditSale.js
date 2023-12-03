@@ -143,7 +143,12 @@ export default function EditSale() {
       if (saleProductId) {
         await axios.put(`https://localhost:7070/api/SaleProducts/${saleProductId}`, saleProductData);
       } else {
-        await axios.post('https://localhost:7070/api/SaleProducts', saleProductData);
+        const saleProductDataP = {
+          saleId: parseInt(id),
+          productId: parseInt(productId),
+          quantity: parseInt(cantidad),
+        };
+        await axios.post('https://localhost:7070/api/SaleProducts', saleProductDataP);
       }
     }
 
