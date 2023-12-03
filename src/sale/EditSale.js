@@ -44,25 +44,33 @@ export default function EditSale() {
       setProductosSeleccionados([...productosSeleccionados, id]);
     }
   };
- ///cantidad de los productos
- const handleCantidadChange = (productId, cantidad) => {
-  setCantidades((prevCantidades) => ({
-    ...prevCantidades,
-    [productId]: cantidad,
-  }));
-};
-  const { code, date, employeeId, clientId, discount, subTotal, total,cantidad } = sale;
+  const handleCantidadChange = (productId, cantidad) => {
+    setCantidades((prevCantidades) => {
+      const updatedCantidades = { ...prevCantidades };
+  
+      if (updatedCantidades.hasOwnProperty(productId)) {
+        updatedCantidades[productId] = cantidad;
+      } else {
+        updatedCantidades[productId] = cantidad;
+      }
+  
+      return updatedCantidades;
+    });
+  };
+  
+  const { code, date, employeeId, clientId, discount, subTotal, total, cantidad } = sale;
 
   const onInputChange = (e) => {
     setSale({ ...sale, [e.target.name]: e.target.value });
   };
+
 
   useEffect(() => {
     loadSale();
     loadProducts();
     loadEmployees();
     loadClients();
-    loadSaleProducts();
+    //loadSaleProducts();
   }, []);
 
   // Calcular el total sumando los precios de los productos seleccionados
@@ -83,6 +91,7 @@ export default function EditSale() {
     };
   };
 
+
   const formatDate = (date) => {
     const d = new Date(date);
     const year = d.getFullYear().toString().slice(-4);
@@ -102,7 +111,6 @@ export default function EditSale() {
     e.preventDefault();
     const calculatedTotal = calculateTotal();
 
-
     const saleData = {
       id: parseInt(id),
       code: parseInt(code),
@@ -110,34 +118,74 @@ export default function EditSale() {
       employeeId: parseInt(employeeId),
       clientId: parseInt(clientId),
       discount: parseFloat(discount),
-      subTotal: parseFloat(parseInt(calculatedTotal.subtotal) + subTotal),
-      total: parseFloat(parseInt(calculatedTotal.total) + total),
-
+      subTotal: parseFloat(calculatedTotal.subtotal),
+      total: parseFloat(calculatedTotal.total),
     };
-    console.log(saleData)
+
+
+    // Actualizar la venta (Sale) usando PUT
     const resp = await axios.put(`https://localhost:7070/api/Sales/${id}`, saleData);
 
     // Recorrer los productos seleccionados y actualizar la tabla de SaleProducts
     for (const productId of productosSeleccionados) {
       const cantidad = cantidades[productId] || 1; // Obtener la cantidad ingresada o usar 1 si no se ingresó nada
+      // Verificar si el SaleProduct ya existe
+      const saleProductId = await obtenerSaleProductId(id, productId);
       const saleProductData = {
-        saleId: id,
-        productId: productId,
-        quantity:cantidad,
+        id: saleProductId,
+        saleId: parseInt(id),
+        productId: parseInt(productId),
+        quantity: parseInt(cantidad),
       };
-      console.log(saleProductData);
-      await axios.post('https://localhost:7070/api/SaleProducts', saleProductData);
 
+
+
+      if (saleProductId) {
+        await axios.put(`https://localhost:7070/api/SaleProducts/${saleProductId}`, saleProductData);
+      } else {
+        await axios.post('https://localhost:7070/api/SaleProducts', saleProductData);
+      }
     }
 
     navigate('/Sales');
     Swal.fire('Venta Actualizada!', 'La venta se actualizó con éxito!', 'success');
   };
 
-  const loadSale = async () => {
-    const result = await axios.get(`https://localhost:7070/api/Sales/${id}`);
-    setSale(result.data);
+  // Función para obtener el SaleProductId si existe
+  const obtenerSaleProductId = async (saleId, productId) => {
+    try {
+      const response = await axios.get(`https://localhost:7070/api/SaleProducts/${saleId}/${productId}`);
+      console.log(response.data)
+      return response.data.id;
+    } catch (error) {
+      // Si ocurre un error (por ejemplo, 404 Not Found), significa que no existe
+      return null;
+    }
   };
+
+
+  const loadSale = async () => {
+    try {
+      const result = await axios.get(`https://localhost:7070/api/Sales/${id}`);
+      setSale(result.data);
+
+      // Obtener información de los productos seleccionados y sus cantidades asociadas
+      const saleProductsResult = await axios.get(`https://localhost:7070/api/SaleProducts/${id}/saleproducts`);
+      const selectedProducts = saleProductsResult.data.map((saleProduct) => ({
+        id: saleProduct.productId,
+        cantidad: saleProduct.quantity,
+      }));
+
+      setProductosSeleccionados(selectedProducts.map((product) => product.id));
+      setCantidades(selectedProducts.reduce((acc, product) => {
+        acc[product.id] = product.cantidad;
+        return acc;
+      }, {}));
+    } catch (error) {
+      console.error('Error al cargar la venta:', error);
+    }
+  };
+
 
 
   const loadProducts = async () => {
@@ -261,7 +309,7 @@ export default function EditSale() {
                 step="0.01"
                 className="form-control"
                 name="subTotal"
-                value={(parseInt(subTotal)+parseInt(calculateTotal().subtotal))}
+                value={(calculateTotal().subtotal)}
                 readOnly
               />
             </div>
@@ -272,23 +320,11 @@ export default function EditSale() {
                 className="form-control"
                 placeholder="Total"
                 name="total"
-                value={parseInt(total)+parseInt(calculateTotal().total)}
+                value={calculateTotal().total}
               />
             </div>
-
           </div>
 
-
-          <div className="view-row">
-            <label className="view-label">Productos:</label>
-            <div className='view-container'>
-              <ul>
-                {productsL.map((product) => (
-                  <li key={product.id}>{product.name} Precio {product.price}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
           <div className="form-group">
             <label className="form-label">Productos</label>
             <table className="table">
