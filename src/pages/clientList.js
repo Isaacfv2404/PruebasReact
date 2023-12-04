@@ -53,7 +53,7 @@ export default function ClientList() {
               <th >Nombre</th>
               <th >Apellidos</th>
               <th >Identificación</th>
-              <th >Email</th>
+              <th >Correo Electrónico</th>
               <th >Dirección</th>
               <th >Teléfono</th>
               <th >Acciones</th>
