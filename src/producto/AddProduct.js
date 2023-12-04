@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { formAlert } from '../alerts/alerts';
 
 export default function AddProduct() {
   let navigate = useNavigate();
@@ -50,9 +51,97 @@ export default function AddProduct() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    
 
-    e.preventDefault();
+    switch (true) {
+      case !name:
+      case !description:
+      case !brand:
+      case !price:
+      case !stock:
+        formAlert('Debe llenar todos los datos');
+        return;
+
+      case !/^[a-zA-Z\s]+$/.test(name):
+        formAlert('El nombre del producto debe contener solo letras.');
+        return;
+
+      case !/^\d+(\.\d{1,2})?$/.test(price):
+        formAlert(
+          'El precio del producto debe ser un número válido con hasta dos decimales.'
+        );
+        return;
+
+      case !/^\d+$/.test(stock):
+        formAlert('La cantidad del producto debe ser un número entero.');
+        return;
+
+      case description.length < 10:
+        formAlert(
+          'La descripción del producto debe tener al menos 10 caracteres.'
+        );
+        return;
+    }
+
+    if (productType === '') {
+      formAlert('Debe seleccionar un tipo de producto');
+      return;
+    } else if (productType === 'Batería') {
+      switch (true) {
+        case !model:
+        case !capacity:
+        case !voltage:
+        case !type:
+        case !weight:
+        case !large:
+        case !width:
+        case !height:
+        case !expiration:
+          
+          formAlert('Debe llenar todos los datos');
+          return;
+
+        case !/^\d+$/.test(capacity):
+          formAlert('La capacidad de la batería debe ser un número entero.');
+          return;
+
+        case !/^\d+$/.test(voltage):
+          formAlert('El voltaje de la batería debe ser un número entero.');
+          return;
+
+        case !/^[a-zA-Z\s]+$/.test(type):
+          formAlert('El tipo de la batería debe contener solo letras.');
+          return;
+
+        case !/^\d+(\.\d{1,2})?$/.test(weight):
+          formAlert(
+            'El peso de la batería debe ser un número válido con hasta dos decimales.'
+          );
+          return;
+
+        case !/^\d+(\.\d{1,2})?$/.test(large):
+          formAlert(
+            'El largo de la batería debe ser un número válido con hasta dos decimales.'
+          );
+          return;
+
+        case !/^\d+(\.\d{1,2})?$/.test(width):
+          formAlert(
+            'El ancho de la batería debe ser un número válido con hasta dos decimales.'
+          );
+          return;
+
+        case !/^\d+(\.\d{1,2})?$/.test(height):
+          formAlert(
+            'El alto de la batería debe ser un número válido con hasta dos decimales.'
+          );
+          return;
+
+        case new Date(expiration) <= new Date():
+          formAlert('La fecha de expiración debe ser en el futuro.');
+          return;
+      }
+    }
+
     await axios.post('https://localhost:7070/api/Products', product);
 
     if (productType === 'Batería') {

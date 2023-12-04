@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { formAlert } from '../alerts/alerts';
 
 export default function AddSale() {
   let navigate = useNavigate();
@@ -79,12 +80,16 @@ export default function AddSale() {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 
   const onSubmit = async (e) => {
+    e.preventDefault();
+    
     if (!code || !date || !employeeId || !clientId || !discount || !productosSeleccionados.length) {
       console.error('Por favor, complete todos los campos necesarios.');
 
-      Swal.fire('Espacios Vacios', 'No puede dejar espacios vacios', 'error');
-    } else {
-      e.preventDefault();
+      formAlert('Debe llenar todos los datos');
+      return;
+    } 
+    else {
+     
       // Calcular el total
       const calculatedTotal = calculateTotal();
 

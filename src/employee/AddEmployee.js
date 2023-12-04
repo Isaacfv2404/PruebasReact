@@ -44,7 +44,7 @@ export default function AddEmployee() {
       !password ||
       !confirmPassword
     ) {
-      formAlert('Mensaje de error');
+      formAlert('Debe llenar todos los campos.');
       return;
     }
 

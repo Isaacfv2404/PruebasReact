@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import './styles.css';
-import Swal from 'sweetalert2';
+import Pagination from '../pagination/Pagination';
 
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DeleteProduct from '../producto/DeleteProduct';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
 
   useEffect(() => {
     loadProducts();
@@ -27,6 +29,12 @@ export default function ProductList() {
   const handleProductDeleted = () => {
     loadProducts(); // Actualiza la lista de productos
   };
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const onPageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   let formattedPrice = '';
 
@@ -48,7 +56,7 @@ export default function ProductList() {
           </tr>
         </thead>
         <tbody className="table-body">
-          {products.map((producto, index) => (
+          {currentProducts.map((producto, index) => (
             <tr>
               <th scope="row" key={index}>
                 {index + 1}
@@ -97,6 +105,11 @@ export default function ProductList() {
           ))}
         </tbody>
       </table>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(products.length / productsPerPage)}
+        onPageChange={onPageChange}
+      />
       <a href="/AddProduct" class="btn-flotante">
         +
       </a>

@@ -16,12 +16,11 @@ export default function EditWarranty() {
     endDate: '',
   });
 
-  const {description, state, productId, vehicleId, startDate, endDate } = warranty;
+  const { description, state, productId, vehicleId, startDate, endDate } =
+    warranty;
 
   const [vehicles, setVehicles] = useState([]);
   const [products, setProducts] = useState([]);
-
-  
 
   useEffect(() => {
     loadWarranty();
@@ -31,12 +30,14 @@ export default function EditWarranty() {
 
   const loadWarranty = async () => {
     try {
-      const response = await axios.get(`https://localhost:7070/api/Warranties/${id}`);
-      
-    const warrantyData = response.data;
+      const response = await axios.get(
+        `https://localhost:7070/api/Warranties/${id}`
+      );
 
-    const formattedStartDate = warrantyData.startDate.split('T')[0];
-    const formattedEndDate = warrantyData.endDate.split('T')[0];
+      const warrantyData = response.data;
+
+      const formattedStartDate = warrantyData.startDate.split('T')[0];
+      const formattedEndDate = warrantyData.endDate.split('T')[0];
       setWarranty({
         ...warrantyData,
         startDate: formattedStartDate,
@@ -109,7 +110,6 @@ export default function EditWarranty() {
               value={state === null ? '' : state}
               onChange={(e) => onInputChange(e)}
             >
-             
               <option value={true}>Activo</option>
               <option value={false}>Inactivo</option>
             </select>
@@ -159,7 +159,7 @@ export default function EditWarranty() {
               name="startDate"
               value={startDate}
               onChange={(e) => onInputChange(e)}
-              disabled 
+              disabled
             />
           </div>
 
@@ -171,7 +171,7 @@ export default function EditWarranty() {
               name="endDate"
               value={endDate}
               onChange={(e) => onInputChange(e)}
-              disabled 
+              disabled
             />
           </div>
 

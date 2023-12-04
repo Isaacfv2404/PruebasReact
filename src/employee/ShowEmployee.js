@@ -42,10 +42,6 @@ export default function ShowEmployee() {
         <label className="view-label">Correo Electrónico:</label>
         <label className="view-value">{employee.email}</label>
       </div>
-      <div className="view-row">
-        <label className="view-label">Contraseña:</label>
-        <label className="view-value">{employee.password}</label>
-      </div>
     </div>
   );
 }
