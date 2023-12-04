@@ -87,7 +87,7 @@ export default function SaleList() {
           </tr>
         </thead>
         <tbody className="table-body">
-          {sales.map((sale, index) => (
+          {currentSales.map((sale, index) => (
             <tr key={sale.id}>
               <th scope="row">{index + 1}</th>
               <td style={{ display: 'none' }}>{sale.id}</td>
