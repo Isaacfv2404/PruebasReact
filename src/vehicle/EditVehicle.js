@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AddVehicle';
+import confirmAlert from '../alerts/confirmAlert';
+
 
 export default function EditVehicle() {
   let navigate = useNavigate();
@@ -28,6 +30,7 @@ export default function EditVehicle() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(`https://localhost:7070/api/Vehicles/${id}`, vehicle);
+    confirmAlert();
     navigate('/Vehicle');
   };
 
@@ -63,6 +66,7 @@ export default function EditVehicle() {
             name="plate"
             value={plate}
             onChange={(e) => onInputChange(e)}
+            required = {true}
           />
         </div>
         <div className="form-group">

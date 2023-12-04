@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AddClient';
+import confirmAlert from '../alerts/confirmAlert';
+
 
 export default function EditVehicle() {
   let navigate = useNavigate();
@@ -28,6 +30,7 @@ export default function EditVehicle() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(`https://localhost:7070/api/Clients/${id}`, client);
+    confirmAlert();
     navigate('/Client');
   };
   const loadClient = async () => {
@@ -50,6 +53,8 @@ export default function EditVehicle() {
             name="name"
             value={name}
             onChange={(e) => onInputChange(e)}
+            required = {true}
+
           />
         </div>
         <div className="form-group">
@@ -61,6 +66,7 @@ export default function EditVehicle() {
             name="lastName"
             value={lastName}
             onChange={(e) => onInputChange(e)}
+            required = {true}
           />
         </div>
 
@@ -73,6 +79,8 @@ export default function EditVehicle() {
             name="identification"
             value={identification}
             onChange={(e) => onInputChange(e)}
+            required = {true}
+
           />
         </div>
 
@@ -85,6 +93,8 @@ export default function EditVehicle() {
             name="email"
             value={email}
             onChange={(e) => onInputChange(e)}
+            required = {true}
+
           />
         </div>
         <div className="form-group">
