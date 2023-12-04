@@ -22,6 +22,7 @@ export default function ShowSale() {
   useEffect(() => {
     const loadSale = async () => {
       try {
+        
         // Obtener información de la venta
         const saleResult = await axios.get(`https://localhost:7070/api/Sales/${id}`);
         setSale(saleResult.data);
