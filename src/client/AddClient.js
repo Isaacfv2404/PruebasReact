@@ -15,9 +15,10 @@ export default function AddClient() {
     email: '',
     address: '',
     phone: '',
+    activo: ''
   });
 
-  const { name, lastName, identification, email, address, phone } = client;
+  const { name, lastName, identification, email, address, phone, activo} = client;
 
   const onInputChange = (e) => {
     setClient({ ...client, [e.target.name]: e.target.value });
@@ -41,6 +42,7 @@ export default function AddClient() {
       return;
     }
     try {
+      client.activo = true;
       await axios.post(
         'https://localhost:7070/api/Clients',
         JSON.stringify(client),

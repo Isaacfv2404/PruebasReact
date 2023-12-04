@@ -15,11 +15,11 @@ const ImageCarousel = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1000,
+    speed: 2000,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true, // Hace que el carrusel se mueva automáticamente
-    autoplaySpeed: 4000, // Ajusta la velocidad de transición (en milisegundos)
+    autoplaySpeed: 9000, // Ajusta la velocidad de transición (en milisegundos)
   };
 
   return (

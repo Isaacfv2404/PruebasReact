@@ -1,9 +1,9 @@
-import deleteAlert from '../alerts/deleteAlert';
+import deleteAlertLogic from '../alerts/deleteAlertLogic';
 
 const DeleteVehicle = (id, updateVehicleList) => {
 
-  const url = `https://localhost:7070/api/Vehicles/${id}`;
-  deleteAlert(url, updateVehicleList, 'el vehículo');
+  const url = `https://localhost:7070/api/Vehicles/delete/${id}`;
+  deleteAlertLogic(url, updateVehicleList, 'el vehículo');
 };
 
 export default DeleteVehicle;

@@ -1,9 +1,9 @@
-import deleteAlert from '../alerts/deleteAlert';
+import deleteAlertLogic from '../alerts/deleteAlertLogic';
 
 const DeleteClient = (id, updateClientList) => {
 
-  const url = `https://localhost:7070/api/Clients/${id}`;
-  deleteAlert(url, updateClientList, 'El Cliente');
+  const url = `https://localhost:7070/api/Clients/delete/${id}`;
+  deleteAlertLogic(url, updateClientList, 'El Cliente');
 };
 
 export default DeleteClient;

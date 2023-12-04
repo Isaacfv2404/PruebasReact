@@ -11,10 +11,11 @@ export default function AddVehicle() {
     brand: '',
     model: '',
     year: '',
-    clientId: ''
+    clientId: '',
+    activo: ''
   });
 
-  const { plate, brand, model, year, clientId } = vehicle;
+  const { plate, brand, model, year, clientId , activo} = vehicle;
 
   const onInputChange = (e) => {
     setVehicle({ ...vehicle, [e.target.name]: e.target.value });
@@ -35,6 +36,7 @@ export default function AddVehicle() {
 
 
     try {
+      vehicle.activo = true;
       await axios.post('https://localhost:7070/api/Vehicles', JSON.stringify(vehicle), {
         headers: {
           'Content-Type': 'application/json',

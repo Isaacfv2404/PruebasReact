@@ -15,6 +15,7 @@ export default function AddEmployee() {
     email: '',
     password: '',
     confirmPassword: '',
+    activo: ''
   });
 
   const {
@@ -25,6 +26,7 @@ export default function AddEmployee() {
     email,
     password,
     confirmPassword,
+    activo
   } = employee;
 
   const onInputChange = (e) => {
@@ -74,7 +76,7 @@ export default function AddEmployee() {
     }
 
     // Resto del código para enviar los datos al servidor
-
+    employee.activo = true;
     Swal.fire({
       title: "¿Desea guardar el nuevo empleado?",
       showDenyButton: true,
