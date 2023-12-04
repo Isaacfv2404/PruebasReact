@@ -51,7 +51,7 @@ export default function EditVehicle() {
 
   return (
     <div className="container">
-      <h1 className="heading">Registrar Vehiculo</h1>
+      <h1 className="heading">Editar Vehículo</h1>
 
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
@@ -120,9 +120,18 @@ export default function EditVehicle() {
           </select>
         </div>
 
-        <button className="submit-button" type="submit">
-          Enviar
-        </button>
+        <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Vehicle')}
+            >
+              Volver
+            </button>
+
+            <button className="submit-button" type="submit">
+              Actualizar
+            </button>
+          </div>
       </form>
     </div>
   );

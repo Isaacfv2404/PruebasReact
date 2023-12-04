@@ -6,9 +6,12 @@ import './styles.css';
 
 import { Link, useParams } from 'react-router-dom';
 import DeleteVehicle from '../vehicle/DeleteVehicle';
+import Pagination from '../pagination/Pagination';
 
 export default function VehicleList() {
   const [vehicles, setVehicles] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const vehiclesPerPage = 10;
 
   useEffect(() => {
     loadVehicles();
@@ -40,10 +43,19 @@ export default function VehicleList() {
     }
   };
 
+  const indexOfLastVehicle = currentPage * vehiclesPerPage;
+  const indexOfFirstVehicle = indexOfLastVehicle - vehiclesPerPage;
+  const currentVehicles = vehicles.slice(
+    indexOfFirstVehicle,
+    indexOfLastVehicle
+  );
+
+  const onPageChange = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="table-container">
       <h1>.</h1>
-      <h1>Vehiculos</h1>
+      <h1>Vehículos</h1>
       <table className="table">
         <thead className="table-header">
           <tr>
@@ -57,7 +69,7 @@ export default function VehicleList() {
           </tr>
         </thead>
         <tbody className="table-body">
-          {vehicles.map((vehicle, index) => (
+          {currentVehicles.map((vehicle, index) => (
             <tr>
               <th scope="row" key={index}>
                 {index + 1}
@@ -97,6 +109,13 @@ export default function VehicleList() {
           ))}
         </tbody>
       </table>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(vehicles.length / vehiclesPerPage)}
+        onPageChange={onPageChange}
+      />
+
       <a href="/AddVehicle" class="btn-flotante">
         +
       </a>

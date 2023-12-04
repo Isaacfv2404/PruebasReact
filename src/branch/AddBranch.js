@@ -78,7 +78,7 @@ export default function AddBranches() {
     <div>
       <link rel="stylesheet" href="/globalForm.css"></link>
       <div className='container'>
-        <h2 className='heading'>Registrar Sucursal</h2>
+        <h1 className='heading'>Registrar Sucursal</h1>
 
         <form onSubmit={(e) => onSubmit(e)}>
           <div className='form-group'>
@@ -145,9 +145,18 @@ export default function AddBranches() {
             </select>
           </div>
 
-          <button className='submit-button' type='submit'>
-            Registrar
-          </button>
+          <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Branch')}
+            >
+              Volver
+            </button>
+
+            <button className="submit-button" type="submit">
+              Actualizar
+            </button>
+          </div>
         </form>
       </div>
     </div>

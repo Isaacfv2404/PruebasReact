@@ -14,7 +14,7 @@ export default function SaleList() {
   const [clients, setClients] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const salesPerPage = 1;
+  const salesPerPage = 10;
 
   useEffect(() => {
     loadSales();

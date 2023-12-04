@@ -169,9 +169,18 @@ export default function EditEmployee() {
               </div>
             </>
 
-          <button className="submit-button" type="submit">
-            Enviar
-          </button>
+            <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Employee')}
+            >
+              Volver
+            </button>
+
+            <button className="submit-button" type="submit">
+              Enviar
+            </button>
+          </div>
         </form>
       </div>
     </div>

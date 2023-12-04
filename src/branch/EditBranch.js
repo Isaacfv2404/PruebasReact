@@ -86,7 +86,7 @@ export default function EditBranch() {
     <div>
       <link rel="stylesheet" href="/globalForm.css"></link>
       <div className="container">
-        <h2 className="heading">Editar Sucursal</h2>
+        <h1 className="heading">Editar Sucursal</h1>
 
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="form-group">
@@ -153,9 +153,18 @@ export default function EditBranch() {
             </select>
           </div>
 
-          <button className="submit-button" type="submit">
-            Guardar Cambios
-          </button>
+          <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Branch')}
+            >
+              Volver
+            </button>
+
+            <button className="submit-button" type="submit">
+              Actualizar
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles.css';
 import Footer from './footer';
+import Pagination from '../pagination/Pagination';
 
 import { Link } from 'react-router-dom';
 import DeleteEmployee from '../employee/DeleteEmployee';
 
 export default function EmployeeList() {
   const [employees, setEmployees] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const employeesPerPage = 10;
 
   useEffect(() => {
     loadEmployees();
@@ -21,6 +24,15 @@ export default function EmployeeList() {
       console.error('Error al cargar los empleados:', error);
     }
   };
+
+  const indexOfLastEmployee = currentPage * employeesPerPage;
+  const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
+  const currentEmployees = employees.slice(
+    indexOfFirstEmployee,
+    indexOfLastEmployee
+  );
+
+  const onPageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="table-container">
@@ -39,7 +51,7 @@ export default function EmployeeList() {
           </tr>
         </thead>
         <tbody className="table-body">
-          {employees.map((employee, index) => (
+          {currentEmployees.map((employee, index) => (
             <tr key={employee.id}>
               <th scope="row">{index + 1}</th>
               <td>{employee.identification}</td>
@@ -73,6 +85,11 @@ export default function EmployeeList() {
           ))}
         </tbody>
       </table>
+      <Pagination
+      currentPage={currentPage}
+      totalPages={Math.ceil(employees.length / employeesPerPage)}
+      onPageChange={onPageChange}
+    />
       <a href="/AddEmployee" class="btn-flotante">
         +
       </a>

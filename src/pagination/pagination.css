@@ -1,6 +1,28 @@
 .pagination {
   display: inline-block;
-  padding-left: 0;
   margin-bottom: 10% ;
   border-radius: 4px;
+}
+
+.pagination button {
+  margin-right: 5px;
+  background-color: #232122;
+  color: #f6f4e6;
+  border: 1px solid #232122;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 10px 15px; 
+  font-size: 16px;
+}
+
+.pagination button:hover {
+  background-color: #fddb3a;
+  color: #232122;
+}
+
+/* Estilo para el botón de la página activa */
+.pagination button.active {
+  background-color: #fddb3a;
+  color: #232122;
+  border: 1px solid #232122;
 }

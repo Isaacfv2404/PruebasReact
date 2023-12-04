@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function ShowClient() {
-  //let navigate = useNavigate();
+  let navigate = useNavigate();
   const [client, setClient] = useState([]);
 
   const params = new URLSearchParams(window.location.search);
@@ -43,6 +44,16 @@ export default function ShowClient() {
         <label class="view-label">Teléfono:</label>
         <label class="view-value">{client.phone}</label>
       </div>
+      <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Client')}
+            >
+              Volver
+            </button>
+
+          
+          </div>
      
     </div>
   );

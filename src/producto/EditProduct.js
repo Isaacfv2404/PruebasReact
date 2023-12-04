@@ -228,7 +228,7 @@ export default function EditProduct() {
     <div>
       <link rel="stylesheet" href="/globalForm.css"></link>
       <div className="container">
-        <h2 className="heading">EditarProducto</h2>
+        <h1 className="heading">Editar Producto</h1>
 
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="form-group">

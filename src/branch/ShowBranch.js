@@ -46,6 +46,16 @@ export default function ShowBranch() {
         <label className="view-label">Horario:</label>
         <label className="view-value">{branch.hours}</label>
       </div>
+      <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Branch')}
+            >
+              Volver
+            </button>
+
+           
+          </div>
     </div>
   );
 }
