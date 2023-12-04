@@ -152,9 +152,18 @@ export default function AddWarranty() {
             />
           </div>
 
-          <button className="submit-button" type="submit">
-            Enviar
-          </button>
+          <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Warranty')}
+            >
+              Volver
+            </button>
+
+            <button className="submit-button" type="submit">
+              Enviar
+            </button>
+          </div>
         </form>
       </div>
     </div>

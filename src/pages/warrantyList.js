@@ -30,14 +30,14 @@ export default function ProductList() {
 
   return (
     <div className="table-container">
-
-      <h1>.</h1>  
+      <h1>.</h1>
       <h1>Garantías</h1>
       <table className="table">
         <thead className="table-header">
           <tr>
             <th>#</th>
             <th>Descripción</th>
+            <th>Estado</th>
             <th>Producto</th>
             <th>Vehículo</th>
             <th>Fecha Inicio</th>
@@ -52,6 +52,14 @@ export default function ProductList() {
                 {index + 1}
               </th>
               <td>{warranty.description}</td>
+              <td
+                className={`table-cell ${
+                  warranty.state ? 'active' : 'inactive'
+                }`}
+              >
+                {' '}
+                {warranty.state ? 'Activo' : 'Inactivo'}
+              </td>
               <td>{warranty.product.name}</td>
               <td>{warranty.vehicle.brand}</td>
 
@@ -85,10 +93,10 @@ export default function ProductList() {
           ))}
         </tbody>
       </table>
-      <a
-        href="/AddWarranty" class="btn-flotante">+</a>
+      <a href="/AddWarranty" class="btn-flotante">
+        +
+      </a>
       <Footer />
-
     </div>
   );
 }

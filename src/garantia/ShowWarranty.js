@@ -43,6 +43,14 @@ export default function ShowWarranty() {
           <label class="view-label">Fecha Vencimiento:</label>
           <label class="view-value">{warranty.endDate ? warranty.endDate.split('T')[0]: ' '}</label>
         </div>
+        <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Warranty')}
+            >
+              Volver
+            </button>
+          </div>
       </div>
     </div>
   );
