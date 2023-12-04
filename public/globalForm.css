@@ -77,3 +77,22 @@
     margin-top: 0;
     
   }
+
+  .button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .button-group button {
+    margin-right: 40px; /* Ajusta el valor según el espacio que desees */
+  }
+  
+  /* O puedes usar margin-left en el segundo botón */
+  
+  .button-group button:last-child {
+    margin-left: 40px; /* Ajusta el valor según el espacio que desees */
+  }
+  
+  

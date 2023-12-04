@@ -57,8 +57,8 @@ export default function EditProduct() {
     const fetchData = async () => {
       try {
         await loadProduct();
-        if (batteryFlag === 'Batería'){
-        await loadBattery();
+        if (batteryFlag === 'Batería') {
+          await loadBattery();
         }
       } catch (error) {
         console.error('Error loading product or battery:', error);
@@ -433,9 +433,18 @@ export default function EditProduct() {
             </div>
           )}
 
-          <button className="submit-button" type="submit">
-            Enviar
-          </button>
+          <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/ProductList')}
+            >
+              Volver
+            </button>
+
+            <button className="submit-button" type="submit">
+              Enviar
+            </button>
+          </div>
         </form>
       </div>
     </div>

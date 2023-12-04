@@ -175,9 +175,18 @@ export default function EditWarranty() {
             />
           </div>
 
-          <button className="submit-button" type="submit">
-            Actualizar
-          </button>
+          <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Warranty')}
+            >
+              Volver
+            </button>
+
+            <button className="submit-button" type="submit">
+              Actualizar
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -96,7 +96,6 @@ export default function AddProduct() {
         case !width:
         case !height:
         case !expiration:
-          
           formAlert('Debe llenar todos los datos');
           return;
 
@@ -159,6 +158,7 @@ export default function AddProduct() {
   return (
     <div>
       <link rel="stylesheet" href="/globalForm.css"></link>
+
       <div className="container">
         <h1 className="heading">Registrar Producto</h1>
 
@@ -365,10 +365,18 @@ export default function AddProduct() {
               </div>
             </div>
           )}
+        <div className='button-group'>
+          <button
+            className="submit-button"
+            onClick={() => navigate('/ProductList')}
+          >
+            Volver
+          </button>
 
           <button className="submit-button" type="submit">
             Enviar
           </button>
+        </div>
         </form>
       </div>
     </div>

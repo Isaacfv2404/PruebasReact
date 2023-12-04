@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function ShowProduct() {
-  //let navigate = useNavigate();
+  let navigate = useNavigate();
   const [product, setProduct] = useState([]);
   const [battery, setBattery] = useState([]);
 
@@ -66,7 +67,7 @@ export default function ShowProduct() {
         </div>
         <>--------------------------------------------------------</>
         {product.productType === 'Batería' && (
-          <div className='view-container-details'>
+          <div className="view-container-details">
             <div className="view-row">
               <label className="view-label">Modelo:</label>
               <label className="view-value">{battery.model}</label>
@@ -108,6 +109,14 @@ export default function ShowProduct() {
             </div>
           </div>
         )}
+        <div className="button-group">
+          <button
+            className="submit-button"
+            onClick={() => navigate('/ProductList')}
+          >
+            Volver
+          </button>
+        </div>
       </div>
     </div>
   );
