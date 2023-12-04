@@ -135,8 +135,7 @@ export default function AddBuys() {
 
       <link rel="stylesheet" href="/sale.css"></link>
       <div className="container">
-        <h1>.</h1>
-        <h2 className="heading">Registrar Compra</h2>
+        <h1 className="heading">Registrar Compra</h1>
 
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="colums">

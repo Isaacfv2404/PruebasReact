@@ -4,9 +4,12 @@ import axios from 'axios';
 import './styles.css';
 import DeleteBranch from '../branch/DeleteBranch';
 import { Link } from 'react-router-dom';
+import Pagination from '../pagination/Pagination';
 
 export default function BranchList() {
   const [branches, setBranches] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const branchesPerPage = 10;
 
   useEffect(() => {
     loadBranches();
@@ -21,10 +24,15 @@ export default function BranchList() {
     }
   };
 
+  const indexOfLastBranch = currentPage * branchesPerPage;
+  const indexOfFirstBranch = indexOfLastBranch - branchesPerPage;
+  const currentBranches = branches.slice(indexOfFirstBranch, indexOfLastBranch);
+
+  const onPageChange = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div>
       <div className="table-container">
-   
         <h1>.</h1>
         <h1>Sucursales</h1>
         <table className="table">
@@ -40,7 +48,7 @@ export default function BranchList() {
             </tr>
           </thead>
           <tbody className="table-body">
-            {branches.map((branch, index) => (
+            {currentBranches.map((branch, index) => (
               <tr key={branch.id}>
                 <th scope="row">{index + 1}</th>
                 <td>{branch.name}</td>
@@ -62,21 +70,26 @@ export default function BranchList() {
                     Editar
                   </Link>
                   <Link
-                  className="actions-link "
-                  onClick={() => {
-                    DeleteBranch(branch.id,loadBranches);
-                  }}
-                >
-                  Eliminar
-                </Link>
+                    className="actions-link "
+                    onClick={() => {
+                      DeleteBranch(branch.id, loadBranches);
+                    }}
+                  >
+                    Eliminar
+                  </Link>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(branches.length / branchesPerPage)}
+          onPageChange={onPageChange}
+        />
         <a href="/AddBranch" className="btn-flotante">
-        +
-      </a>
+          +
+        </a>
         <Footer />
       </div>
     </div>

@@ -16,11 +16,11 @@ export default function EditVehicle() {
     identification: '',
     email: '',
     address: '',
-    phone: '' 
-   });
+    phone: '',
+  });
 
-   const { name, lastName, identification, email, address, phone } = client;
-   const onInputChange = (e) => {
+  const { name, lastName, identification, email, address, phone } = client;
+  const onInputChange = (e) => {
     setClient({ ...client, [e.target.name]: e.target.value });
   };
   useEffect(() => {
@@ -38,10 +38,9 @@ export default function EditVehicle() {
     setClient(result.data);
   };
 
-
   return (
     <div className="container">
-      <h1 className="heading">Registrar Cliente</h1>
+      <h1 className="heading">Editar Cliente</h1>
 
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
@@ -120,11 +119,15 @@ export default function EditVehicle() {
           />
         </div>
 
-       
+        <div className="button-group">
+          <button className="submit-button" onClick={() => navigate('/Client')}>
+            Volver
+          </button>
 
-        <button className="submit-button" type="submit">
-          Enviar
-        </button>
+          <button className="submit-button" type="submit">
+            Enviar
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -238,8 +238,7 @@ export default function EditSale() {
     <div>
       <link rel="stylesheet" href="/sale.css"></link>
       <div className="container">
-        <p>.</p>
-        <h2 className="heading">Editar Venta</h2>
+        <h1 className="heading">Editar Venta</h1>
 
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="colums">

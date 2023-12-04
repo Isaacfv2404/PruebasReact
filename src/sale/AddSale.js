@@ -167,7 +167,7 @@ export default function AddSale() {
       <h1>.</h1>
       <link rel="stylesheet" href="/sale.css"></link>
       <div className="container">
-        <h2 className="heading">Registrar Venta</h2>
+        <h1 className="heading">Registrar Venta</h1>
 
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="colums">
