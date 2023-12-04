@@ -16,21 +16,16 @@ export default function EditEmployee() {
     address: '',
     phone: '',
     email: '',
-    password: '',
-    confirmPassword: ''
+    password: ''
   });
 
-  const [changePassword, setChangePassword] = useState(false);
 
-  const { identification, name, address, phone, email, password, confirmPassword } = employee;
+  const { identification, name, address, phone, email, password } = employee;
 
   const onInputChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
   };
 
-  const toggleChangePassword = () => {
-    setChangePassword(!changePassword);
-  };
 
   useEffect(() => {
     loadEmployee();
@@ -66,11 +61,6 @@ export default function EditEmployee() {
       return;
     }
 
-    if (changePassword && password !== confirmPassword) {
-      formAlert('Las contraseñas no coinciden.');
-      return;
-    }
-
     Swal.fire({
       title: '¿Desea guardar los cambios?',
       showDenyButton: true,
@@ -81,11 +71,6 @@ export default function EditEmployee() {
       if (result.isConfirmed) {
         Swal.fire('Guardado.', '', 'success');
         const updatedEmployee = { ...employee };
-        // Eliminar las propiedades de contraseña si no se están cambiando
-        if (!changePassword) {
-          delete updatedEmployee.password;
-          delete updatedEmployee.confirmPassword;
-        }
         await axios.put(`https://localhost:7070/api/Employees/${id}`, updatedEmployee);
         navigate('/Employee'); // Actualizar la ruta según la configuración de enrutamiento de tu aplicación
       } else if (result.isDenied) {
@@ -170,11 +155,6 @@ export default function EditEmployee() {
             />
           </div>
 
-          <button type="button" onClick={toggleChangePassword}>
-            Cambiar Contraseña
-          </button>
-
-          {changePassword && (
             <>
               <div className="form-group">
                 <label className="form-label">Contraseña</label>
@@ -187,20 +167,7 @@ export default function EditEmployee() {
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-
-              <div className="form-group">
-                <label className="form-label">Confirmar Contraseña</label>
-                <input
-                  type={'password'}
-                  className="form-control"
-                  placeholder="Confirma la contraseña"
-                  name="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
             </>
-          )}
 
           <button className="submit-button" type="submit">
             Enviar
