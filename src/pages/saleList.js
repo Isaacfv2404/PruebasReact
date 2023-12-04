@@ -6,17 +6,27 @@ import GraphicComponent from '../sale/GraphicComponent';
 import { Link, useParams } from 'react-router-dom';
 import DeleteSale from '../sale/DeleteSale';
 import Footer from './footer';
+import Pagination from '../pagination/Pagination';
 
 export default function SaleList() {
   const [sales, setSales] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [clients, setClients] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const salesPerPage = 1;
+
   useEffect(() => {
     loadSales();
     loadEmployees();
     loadClients();
   }, []);
+  
+  const indexOfLastSale = currentPage * salesPerPage;
+  const indexOfFirstSales = indexOfLastSale - salesPerPage;
+  const currentSales = sales.slice(indexOfFirstSales, indexOfLastSale);
+
+  const onPageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   const loadSales = async () => {
     try {
@@ -129,6 +139,11 @@ export default function SaleList() {
           ))}
         </tbody>
       </table>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(sales.length / salesPerPage)}
+        onPageChange={onPageChange}
+      />
       <Link to="/AddSale" className="btn-flotante">
         +
       </Link>
