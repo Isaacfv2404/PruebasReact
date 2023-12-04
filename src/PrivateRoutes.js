@@ -33,12 +33,15 @@ import DeleteBuys from './buy/DeleteBuys';
 import BuysList from './pages/buyList';
 import BranchList from './pages/branchList';
 import AddBranches from './branch/AddBranch';
+import EditBranches from './branch/EditBranch';
+import ShowBranches from './branch/ShowBranch';
 import List from './pages/productList';
 import Sales from './pages/saleList';
 import EmployeeList from './pages/employeeList';
 import AddEmployee from './employee/AddEmployee';
 import ShowEmployee from './employee/ShowEmployee';
 import EditEmployee from './employee/EditEmployee';
+
 
 const PrivateRoutes = () => {
   return (
@@ -79,6 +82,8 @@ const PrivateRoutes = () => {
       <Route exact path="/ProductList" element={<List />} />
       <Route exact path="/Branch" element={<BranchList />} />
       <Route exact path="/AddBranch" element={<AddBranches />} />
+      <Route exact path="/EditBranch" element={<EditBranches />} />
+      <Route exact path="/ShowBranch" element={<ShowBranches />} />
       <Route exact path="/Employee" element={<EmployeeList />} />
       <Route exact path="/AddEmployee" element={<AddEmployee />} />
       <Route exact path="/ShowEmployee" element={<ShowEmployee />} />

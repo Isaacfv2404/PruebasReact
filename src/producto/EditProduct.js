@@ -164,6 +164,8 @@ export default function EditProduct() {
       title: '¿Desea guardar los cambios?',
       showDenyButton: true,
       showCancelButton: true,
+      confirmButtonColor: '#333',
+      confirmButtonTextColor: '#fddb3a',
       confirmButtonText: 'Guardar',
       denyButtonText: 'No guardar',
     });
