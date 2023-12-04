@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { formAlert } from '../alerts/alerts';
 
 export default function AddBuys() {
   let navigate = useNavigate();
@@ -59,31 +60,41 @@ export default function AddBuys() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const calculatedTotal = calculateTotal();
+    if (!date || !supplierId || !employeeId || !calculateTotal() || productosSeleccionados.length === 0) {
+      console.error('Por favor, complete todos los campos necesarios.');
 
-    const buyData = {
-      date: formatDate(date),
-      supplierId: parseInt(supplierId),
-      employeeId: parseInt(employeeId),
-      total: parseFloat(calculatedTotal),
-    };
+      formAlert('Debe llenar todos los datos');
+      return;
+    } else {
+      const calculatedTotal = calculateTotal();
 
-    console.log(buyData)
-    const response = await axios.post('https://localhost:7070/api/Buys', buyData);
-
-    const buysId = response.data.id;
-    for (const productId of productosSeleccionados) {
-      const cantidad = cantidades[productId] || 1;
-      const buysProductData = {
-        buysId: buysId,
-        productId: productId,
-        quantity:cantidad,
+      const buyData = {
+        date: formatDate(date),
+        supplierId: parseInt(supplierId),
+        employeeId: parseInt(employeeId),
+        total: parseFloat(calculatedTotal),
       };
-      console.log(buysProductData)
-      await axios.post('https://localhost:7070/api/BuysProducts', buysProductData);
+
+      console.log(buyData)
+      const response = await axios.post('https://localhost:7070/api/Buys', buyData);
+
+      const buysId = response.data.id;
+      for (const productId of productosSeleccionados) {
+        const cantidad = cantidades[productId] || 1;
+        const buysProductData = {
+          buysId: buysId,
+          productId: productId,
+          quantity: cantidad,
+        };
+        console.log(buysProductData)
+        await axios.post('https://localhost:7070/api/BuysProducts', buysProductData);
+      }
+      navigate('/Buys');
+      Swal.fire('Compra Agregado!', 'La Compra se almacenó con éxito', 'success');
     }
-    navigate('/Buys');
-    Swal.fire('Compra Agregado!', 'La Compra se almacenó con éxito', 'success');
+
+
+
   };
 
   useEffect(() => {
@@ -121,10 +132,10 @@ export default function AddBuys() {
 
   return (
     <div>
-      
+
       <link rel="stylesheet" href="/sale.css"></link>
       <div className="container">
-      <h1>.</h1>
+        <h1>.</h1>
         <h2 className="heading">Registrar Compra</h2>
 
         <form onSubmit={(e) => onSubmit(e)}>
@@ -221,7 +232,7 @@ export default function AddBuys() {
               </tbody>
             </table>
             {/* Puedes utilizar el array de productos seleccionados (productosSeleccionados) según tus necesidades */}
-            
+
           </div>
 
           <button className="submit-button" type="submit">

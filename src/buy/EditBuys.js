@@ -39,10 +39,17 @@ export default function EditBuys() {
   };
   ///cantidad de los productos
   const handleCantidadChange = (productId, cantidad) => {
-    setCantidades((prevCantidades) => ({
-      ...prevCantidades,
-      [productId]: cantidad,
-    }));
+    setCantidades((prevCantidades) => {
+      const updatedCantidades = { ...prevCantidades };
+
+      if (updatedCantidades.hasOwnProperty(productId)) {
+        updatedCantidades[productId] = cantidad;
+      } else {
+        updatedCantidades[productId] = cantidad;
+      }
+
+      return updatedCantidades;
+    });
   };
   const onInputChange = (e) => {
     setBuys({ ...buys, [e.target.name]: e.target.value });
@@ -88,23 +95,66 @@ export default function EditBuys() {
     };
     await axios.put(`https://localhost:7070/api/Buys/${id}`, buysData);
 
+
     for (const productId of productosSeleccionados) {
       const cantidad = cantidades[productId] || 1;
+      
+
+      const buysProductId = await obtenerBuysProductId(id, productId);
+
       const buysProductData = {
+        id: buysProductId,
         buysId: parseInt(id),
-        productId: productId,
-        quantity: cantidad,
+        productId: parseInt(productId),
+        quantity: parseInt(cantidad),
       };
       console.log(buysProductData);
-      await axios.post('https://localhost:7070/api/BuysProducts', buysProductData);
+      if (buysProductId) {
+        await axios.put(`https://localhost:7070/api/BuysProducts/${buysProductId}`, buysProductData);
+      } else {
+        const buysProductDataB = {
+          buysId: parseInt(id),
+          productId: parseInt(productId),
+          quantity: parseInt(cantidad),
+        };
+        await axios.post('https://localhost:7070/api/BuysProducts', buysProductDataB);
+      }
     }
-    navigate('/');
+    navigate('/Buys');
+  };
+  // Función para obtener el SaleProductId si existe
+  const obtenerBuysProductId = async (buysId, productId) => {
+    try {
+      const response = await axios.get(`https://localhost:7070/api/BuysProducts/${buysId}/${productId}`);
+      console.log(response.data)
+      return response.data.id;
+    } catch (error) {
+      // Si ocurre un error (por ejemplo, 404 Not Found), significa que no existe
+      return null;
+    }
+  };
+  const loadBuys = async () => {
+    try {
+      const result = await axios.get(`https://localhost:7070/api/Buys/${id}`);
+      setBuys(result.data);
+
+      // Obtener información de los productos seleccionados y sus cantidades asociadas
+      const buysProductsResult = await axios.get(`https://localhost:7070/api/BuysProducts/${id}/buysproducts`);
+      const selectedProducts = buysProductsResult.data.map((buysProduct) => ({
+        id: buysProduct.productId,
+        cantidad: buysProduct.quantity,
+      }));
+console.log(selectedProducts);
+      setProductosSeleccionados(selectedProducts.map((product) => product.id));
+      setCantidades(selectedProducts.reduce((acc, product) => {
+        acc[product.id] = product.cantidad;
+        return acc;
+      }, {}));
+    } catch (error) {
+      console.error('Error al cargar:', error);
+    }
   };
 
-  const loadBuys = async () => {
-    const result = await axios.get(`https://localhost:7070/api/Buys/${id}`);
-    setBuys(result.data);
-  };
   const loadProducts = async () => {
     try {
       // Obtener información de los productos asociados a la venta
@@ -129,7 +179,7 @@ export default function EditBuys() {
   const loadSupplier = async () => {
     try {
       const response = await axios.get('https://localhost:7070/api/Suppliers');
-      
+
       setSupplier(response.data);
 
     } catch (error) {
@@ -164,7 +214,7 @@ export default function EditBuys() {
                 className="form-control"
                 placeholder="Ingresa el total"
                 name="total"
-                value={(parseInt(total)+parseInt(calculateTotal()))}
+                value={(calculateTotal())}
               />
             </div>
 
@@ -202,19 +252,8 @@ export default function EditBuys() {
               </select>
             </div>
 
-            </div>
+          </div>
 
-            <div className="view-row">
-              <label className="view-label">Productos:</label>
-              <div className='view-container'>
-                <ul>
-                  {productsL.map((product) => (
-                    <li key={product.id}>{product.name} Precio {product.price}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-        
 
           <div className="form-group">
             <label className="form-label">Productos</label>
@@ -250,7 +289,7 @@ export default function EditBuys() {
                 ))}
               </tbody>
             </table>
-           
+
           </div>
 
           <button className="submit-button" type="submit">Guardar Cambios</button>
