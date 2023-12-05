@@ -40,6 +40,7 @@ export default function ShowBuys() {
   return (
     <div>
       <div className="view-container">
+        <h1>Holaaaaaaaaaaaa</h1>
         <div className="view-row">
           <label className="view-label">Fecha:</label>
           <label className="view-value">{buys.date}</label>
