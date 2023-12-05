@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function EditBuys() {
   let navigate = useNavigate();
@@ -121,6 +122,7 @@ export default function EditBuys() {
       }
     }
     navigate('/Buys');
+    Swal.fire('Compra Actualizada!', 'La Compra se actualizó con éxito!', 'success');
   };
   // Función para obtener el SaleProductId si existe
   const obtenerBuysProductId = async (buysId, productId) => {

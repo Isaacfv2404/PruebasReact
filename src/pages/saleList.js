@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles.css';
 import GraphicComponent from '../sale/GraphicComponent';
-
 import { Link, useParams } from 'react-router-dom';
 import DeleteSale from '../sale/DeleteSale';
 import Footer from './footer';
