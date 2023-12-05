@@ -84,7 +84,6 @@ export default function BuyList() {
     <div className="table-container">
       <h1>.</h1>
       <h1>Compras</h1>
-      <h1>Holaaaaaaaaaaaa</h1>
       <table className="table">
         <thead className="table-header">
           <tr>
