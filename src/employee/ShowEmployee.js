@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function ShowEmployee() {
   const [employee, setEmployee] = useState([]);
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadEmployee();
@@ -42,6 +44,14 @@ export default function ShowEmployee() {
         <label className="view-label">Correo Electrónico:</label>
         <label className="view-value">{employee.email}</label>
       </div>
+      <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Employee')}
+            >
+              Volver
+            </button>
+          </div>
     </div>
   );
 }

@@ -193,7 +193,6 @@ console.log(selectedProducts);
     <div>
       <link rel="stylesheet" href="/sale.css"></link>
       <div className="container">
-        <h1>.</h1>
         <h1 className="heading">Editar Compra</h1>
 
         <form onSubmit={(e) => onSubmit(e)}>

@@ -4,12 +4,16 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import './styles.css';
+import Pagination from '../pagination/Pagination';
 
 import { Link, useParams } from 'react-router-dom';
 import DeleteWarranty from '../garantia/DeleteWarranty';
 
 export default function ProductList() {
   const [warranties, setWarranties] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const warrantiesPerPage = 10;
+
   useEffect(() => {
     loadWarranties();
   }, []);
@@ -27,6 +31,15 @@ export default function ProductList() {
   const handleWarrantyDeleted = () => {
     loadWarranties(); // Actualiza la lista de garantais
   };
+
+  const indexOfLastWarranty = currentPage * warrantiesPerPage;
+  const indexOfFirstWarranty = indexOfLastWarranty - warrantiesPerPage;
+  const currentWarranties = warranties.slice(
+    indexOfFirstWarranty,
+    indexOfLastWarranty
+  );
+
+  const onPageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="table-container">
@@ -46,7 +59,7 @@ export default function ProductList() {
           </tr>
         </thead>
         <tbody className="table-body">
-          {warranties.map((warranty, index) => (
+          {currentWarranties.map((warranty, index) => (
             <tr>
               <th scope="row" key={index}>
                 {index + 1}
@@ -93,6 +106,12 @@ export default function ProductList() {
           ))}
         </tbody>
       </table>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(warranties.length / warrantiesPerPage)}
+        onPageChange={onPageChange}
+      />
+
       <a href="/AddWarranty" class="btn-flotante">
         +
       </a>

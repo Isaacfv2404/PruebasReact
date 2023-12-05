@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ShowVehicle() {
-    //let navigate = useNavigate();
+    let navigate = useNavigate();
     const [vehicle, setVehicle] = useState([])
 
     const params = new URLSearchParams(window.location.search);
@@ -54,6 +55,16 @@ export default function ShowVehicle() {
     <label class="view-label">Nombre de cliente asociado:</label>
     <label class="view-value">{clients.find((client) => client.id === vehicle.clientId)?.name}</label>
   </div>
+  <div className="button-group">
+            <button
+              className="submit-button"
+              onClick={() => navigate('/Vehicle')}
+            >
+              Volver
+            </button>
+
+           
+          </div>
 </div>
 
   );

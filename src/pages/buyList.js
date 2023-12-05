@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles.css';
 import { Link } from 'react-router-dom';
+import Pagination from '../pagination/Pagination';
 
 import Footer from './footer';
 import DeleteBuys from '../buy/DeleteBuys';
@@ -11,6 +12,8 @@ export default function BuyList() {
   const [suppliers, setSuppliers] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const buysPerPage = 10;
 
   useEffect(() => {
     loadBuys();
@@ -72,6 +75,11 @@ export default function BuyList() {
     return product ? ` ${product.name}` : '';
   };
 
+  const indexOfLastBuy = currentPage * buysPerPage;
+  const indexOfFirstBuy = indexOfLastBuy - buysPerPage;
+  const currentBuys = buys.slice(indexOfFirstBuy, indexOfLastBuy);
+  const onPageChange = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="table-container">
       <h1>.</h1>
@@ -88,19 +96,21 @@ export default function BuyList() {
           </tr>
         </thead>
         <tbody className="table-body">
-          {buys.map((buy, index) => (
+          {currentBuys.map((buy, index) => (
             <tr key={buy.id}>
               <th scope="row">{index + 1}</th>
               <td>{buy.date.split('T')[0]}</td>
               <td>{getSupplierNameById(buy.supplierId)}</td>
               <td>{getEmployeeNameById(buy.employeeId)}</td>
               <td>
-                {(formattedPrice = buy.total
-                  ? buy.total.toLocaleString('es-CR', {
-                      style: 'currency',
-                      currency: 'CRC',
-                    })
-                  : '')}
+                {
+                  (formattedPrice = buy.total
+                    ? buy.total.toLocaleString('es-CR', {
+                        style: 'currency',
+                        currency: 'CRC',
+                      })
+                    : '')
+                }
               </td>
 
               <td className="actions">
@@ -123,6 +133,11 @@ export default function BuyList() {
           ))}
         </tbody>
       </table>
+      <Pagination
+      currentPage={currentPage}
+      totalPages={Math.ceil(buys.length / buysPerPage)}
+      onPageChange={onPageChange}
+    />
       <a href="/AddBuys" className="btn-flotante">
         +
       </a>
