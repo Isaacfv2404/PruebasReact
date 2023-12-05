@@ -150,7 +150,7 @@ export default function AddVehicle() {
             </button>
 
             <button className="submit-button" type="submit">
-              Actualizar
+              Enviar
             </button>
           </div>
         </form>

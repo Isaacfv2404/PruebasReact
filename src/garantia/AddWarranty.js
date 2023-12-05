@@ -3,6 +3,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { formAlert } from '../alerts/alerts';
 
 export default function AddWarranty() {
   let navigate = useNavigate();
@@ -16,7 +18,8 @@ export default function AddWarranty() {
     endDate: '',
   });
 
-  const { description, state, productId, vehicleId, startDate, endDate } = warranty;
+  const { description, state, productId, vehicleId, startDate, endDate } =
+    warranty;
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,14 +30,44 @@ export default function AddWarranty() {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (!description || !startDate || !endDate || !productId || !vehicleId) {
+      formAlert('Debe llenar todos los campos.');
+      return;
+    }
+
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+    if (startDateObj >= endDateObj) {
+      formAlert('La fecha de inicio debe ser anterior a la fecha de fin.');
+      return;
+    }
+
+    const currentDate = new Date();
+
+    console.log(currentDate);
+    console.log(startDateObj);
+  
+    if (startDateObj < currentDate) {
+      formAlert('La fecha de inicio debe ser en el futuro.');
+      return;
+    }
+
+    if (endDateObj < currentDate) {
+      formAlert('La fecha de fin debe ser en el futuro.');
+      return;
+    }
     try {
       await axios.post('https://localhost:7070/api/Warranties', warranty);
+      Swal.fire(
+        '!Garantía Agregada!',
+        '!La Garantía se almacenó con éxito!',
+        'success'
+      );
       navigate('/Warranty');
     } catch (error) {
       console.error('Error al enviar la garantía:', error);
     }
   };
-  
 
   const [vehicles, setVehicles] = useState([]);
   const [products, setProducts] = useState([]);
