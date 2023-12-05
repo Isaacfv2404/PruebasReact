@@ -233,11 +233,11 @@ export default function AddBuys() {
             {/* Puedes utilizar el array de productos seleccionados (productosSeleccionados) según tus necesidades */}
 
           </div>
-
+          <a href="Buys" className="submit-button">Cancelar</a>
           <button className="submit-button" type="submit">
             Registrar Compra
           </button>
-          <a href="Buys" className="submit-button">Cancelar</a>
+          
         </form>
       </div>
     </div>
