@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function EditWarranty() {
   let navigate = useNavigate();
@@ -59,8 +60,23 @@ export default function EditWarranty() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`https://localhost:7070/api/Warranties/${id}`, warranty);
-      navigate('/Warranty');
+      Swal.fire({
+        title: '¿Desea guardar los cambios?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Guardar',
+        denyButtonText: 'No guardar',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire('Guardado.', '', 'success');
+          const updatedWarranty = { ...warranty }; 
+          await axios.put(`https://localhost:7070/api/Warranties/${id}`, updatedWarranty);
+          navigate('/Warranty');  
+        } else if (result.isDenied) {
+          Swal.fire('Los cambios no fueron guardados.', '', 'info');
+          return;
+        }
+      });
     } catch (error) {
       console.error('Error updating warranty:', error);
     }
@@ -83,6 +99,9 @@ export default function EditWarranty() {
       console.error('Error loading products:', error);
     }
   };
+
+
+  
 
   return (
     <div>
